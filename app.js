@@ -18,9 +18,29 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var testAPI = require('./routes/testAPI')
-var testFirebase = require('./routes/testFirebase')
+var testFirebase = require('./routes/testFirebase');
 var app = express();
 
+//! setup ada server connection
+//get key from online link
+getJSON = require('./api/getJSON')
+ada_info = JSON.parse(getJSON('http://dadn.esp32thanhdanh.link/'))
+let [key1, key2] = ada_info.key.split(':')
+
+//write the info on env variable so that other services can use
+const dotenv = require('dotenv');
+dotenv.config();
+
+process.env.BK_ADA_KEY1 = key1
+process.env.BK_ADA_KEY2 = key2
+console.log('Acc1: ',process.env.BK_ADA_ID1,'---',process.env.BK_ADA_KEY1)
+console.log('Acc2: ',process.env.BK_ADA_ID2,'---',process.env.BK_ADA_KEY2)
+
+//setup ada services
+const notificationService = require('./api/notificationService')
+notificationService.setup()
+const moistureService = require('./api/moistureService')
+moistureService.setup()
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -36,6 +56,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/testAPI', testAPI);
 app.use('/testFirebase', testFirebase);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -51,5 +72,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 module.exports = app;
