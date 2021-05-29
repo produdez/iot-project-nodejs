@@ -1,4 +1,20 @@
-# Current progress
+# Readme - Important
+
+## how to use?
+
+- Just npm start
+- Wait (just a bit) until console shows:
+
+``` bash
+> server@0.0.0 start
+> node ./bin/www
+```
+
+- Go to http://localhost:8081/ if need to see web page 
+- For server, we work mostly with console actually
+- All the setup and ada/firebase listen is loged to console so read console for more detail!
+
+## Current progress
 
 Currently, the server will
 
