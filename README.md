@@ -14,6 +14,10 @@
 - For server, we work mostly with console actually
 - All the setup and ada/firebase listen is loged to console so read console for more detail!
 
+Update 31/5
+
+- Set the global.UPLOAD_FAKE_DATA_TO_ADA to true to send fake data 
+
 ## Current progress
 
 Currently, the server will
@@ -25,6 +29,15 @@ Currently, the server will
 - The school's provided ada account is in the .env file
 - But the access key for adaServer is GET from a link (in GetJSON.js)
 
+Update 31/5
+
+- Choose to send fake data to adafruit by setting global.UPLOAD_FAKE_DATA_TO_ADA to true
+- All needed envCond conditions are checked when adafruit feed updates
+- temp-humi is split into two and notification is sent separatedly
+- plant settings is pulled from firebase 
+- Adafruit server connection is establish in adaService.js and the mqttclient is set global so other services can use. (the .on function is set is each specific service, the topic has to be checked before running code!)
+- Loging is update to help clearer view, the plant's setting can be logged in plantSettingService.js line (25,26,27,28) but i comment it out since the setting is long and messy in logging!
+
 ## Why server?
 
 - Cause there must be a background progress to keep updates from adafruit when client is not logged in!
@@ -34,5 +47,3 @@ Currently, the server will
 ## TODO
 
 - Record history in the envCond Services
-- Add humi,light,temp
-- Add plant Settings to firebase

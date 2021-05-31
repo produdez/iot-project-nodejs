@@ -37,10 +37,10 @@ console.log('Acc1: ',process.env.BK_ADA_ID1,'---',process.env.BK_ADA_KEY1)
 console.log('Acc2: ',process.env.BK_ADA_ID2,'---',process.env.BK_ADA_KEY2)
 
 //setup ada services
-const notificationService = require('./api/notificationService')
-notificationService.setup()
-const moistureService = require('./api/moistureService')
-moistureService.setup()
+const adaService = require('./api/adaService')
+//! SET this to true if want to demo fake data instead of waiting real server
+global.UPLOAD_FAKE_DATA_TO_ADA = false;
+adaService.setup();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
