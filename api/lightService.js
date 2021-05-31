@@ -1,18 +1,24 @@
 const mqtt = require('mqtt')
 const dotenv = require('dotenv');
 const notificationService = require('./notificationService')
+const historyService = require('./historyService')
 dotenv.config();
+
+const DB_NAME = 'Light'
+const ref = firebase.database().ref(DB_NAME)
 
 function setupLightService(){
     var mqttClient = global.mqttClient2;
     mqttClient.on('message', (topic,message)=>{
         if(topic === 'CSE_BBC1/feeds/bk-iot-light'){
-            console.log('-----------------------------------------------------')
+            console.log('******************************************')
             console.log('Received light data from ada:')
             console.log(message.toString())
             var sensor_json_data = JSON.parse(message.toString())
             //generate light notification!  
             notificationService.sendNotification(sensor_json_data)
+            //push data to firebase
+            historyService.pushEnvCondToFirebase(ref,sensor_json_data);
         }
     })
 

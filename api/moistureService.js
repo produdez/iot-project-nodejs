@@ -2,17 +2,23 @@ const mqtt = require('mqtt')
 const dotenv = require('dotenv');
 const notificationService = require('./notificationService')
 dotenv.config();
+const historyService = require('./historyService')
+
+const DB_NAME = 'Moisture'
+const ref = firebase.database().ref(DB_NAME)
 
 function setupMoistureService(){
     var mqttClient = global.mqttClient1;
     mqttClient.on('message', (topic,message)=>{
         if (topic === 'CSE_BBC/feeds/bk-iot-soil'){
-            console.log('-----------------------------------------------------')
+            console.log('******************************************')
             console.log('Received moisture data from ada:')
             console.log(message.toString())
             var sensor_json_data = JSON.parse(message.toString())
             //generate moisture notification!  
             notificationService.sendNotification(sensor_json_data)
+            //push data to firebase
+            historyService.pushEnvCondToFirebase(ref,sensor_json_data);
         }
     })
 

@@ -1,17 +1,20 @@
-//todo: do this
-//todo: remember to split humi and temp into two types with name: HUMI, TEMP 
-//todo: and send noti separated!
-
 const mqtt = require('mqtt')
 const dotenv = require('dotenv');
 const notificationService = require('./notificationService')
 dotenv.config();
+const historyService = require('./historyService')
+
+
+const DB_NAME1 = 'Temperature'
+const ref1 = firebase.database().ref(DB_NAME1)
+const DB_NAME2 = 'Humidity'
+const ref2 = firebase.database().ref(DB_NAME2)
 
 function setupTempHumiService(){
     var mqttClient = global.mqttClient1;
     mqttClient.on('message', (topic,message)=>{
         if(topic === 'CSE_BBC/feeds/bk-iot-temp-humid'){
-            console.log('-----------------------------------------------------')
+            console.log('******************************************')
             console.log('Received temp-humid data from ada:')
             console.log(message.toString())
 
@@ -34,6 +37,10 @@ function setupTempHumiService(){
             //generate notification
             notificationService.sendNotification(temp_sensor_json)
             notificationService.sendNotification(humi_sensor_json)
+
+            //push data to firebase
+            historyService.pushEnvCondToFirebase(ref1,temp_sensor_json);
+            historyService.pushEnvCondToFirebase(ref2,humi_sensor_json);
         }
     })
 
