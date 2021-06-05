@@ -21,6 +21,7 @@ async function sendNotification(sensor_data){
     if (check_result){
         sensor_data.plant_name = sensorService.getPlantName(sensor_data.plant_id);
         sensor_data.threshold = check_service.get_threshold(sensor_data, check_sign);
+        sensor_data.date = new Date().toISOString();
         sensor_data.sign = check_sign;
         push_to_firebase(sensor_data);
     }else{
