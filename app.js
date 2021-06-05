@@ -42,6 +42,10 @@ const adaService = require('./api/adaService')
 global.UPLOAD_FAKE_DATA_TO_ADA = false;
 adaService.setup();
 
+
+//! keep updating ada info to firebase
+adaService.update_ada_info();
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -74,4 +78,16 @@ app.use(function(err, req, res, next) {
 });
 
 
+// //! Connect to react in case client need to make serverside requests
+// app.use(function(req, res, next) {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+//   next();
+// });
+
+// app.post("/post", (req, res) => {
+//   console.log("Connected to React");
+//   res.redirect("/");
+// });
+    
 module.exports = app;

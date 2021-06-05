@@ -64,5 +64,40 @@ function setupAdaService(){
     humiTempService.setup();
 }
 
+firebase = require('firebase-admin')
+DB_NAME = 'AdaAuth'
+const ref = firebase.database().ref(DB_NAME)
+const getJSON = require('./getJSON')
+
+ref.on('value', (snapshot) => {
+    console.log('Ada auth info updated in firebase!')
+    console.log(JSON.stringify(snapshot.val()));
+});
+
+var time_seconds = 60; // n-seconds
+var interval = time_seconds * 1000; 
+async function loop_update(){
+    update_ada_auth_info_to_firebase(0)
+}
+function update_ada_auth_info_to_firebase(i){
+    setTimeout(() => {
+        console.log('Inf loop: ',i)
+        //get from link
+        ada_info = JSON.parse(getJSON('http://dadn.esp32thanhdanh.link/'))
+        let [key1, key2] = ada_info.key.split(':')
+        console.log('Ada Keys: ', key1,key2)
+        //update on firebase
+        let ada_info_json = {
+            id1: "CSE_BBC",
+            id2: "CSE_BBC1",
+            key1: key1,
+            key2: key2,
+        }
+        ref.set(ada_info_json)
+        update_ada_auth_info_to_firebase(++i);
+    }, interval)
+}
+
 exports.setup = setupAdaService; 
+exports.update_ada_info = loop_update;
 
