@@ -30,7 +30,7 @@ function setupMoistureService(){
         json_data = {
             id:'9',
             name:"SOIL",
-            data:random_moisture,
+            data:random_moisture.toString(),
             unit:"%"
         }
         console.log('-----------------------------------------------------')
@@ -49,8 +49,7 @@ function setupMoistureService(){
             }                       //  ..  setTimeout()
         }, delay)
     }
-    // if(global.UPLOAD_FAKE_DATA_TO_ADA) myLoop();
-    myLoop();
+    if(global.UPLOAD_FAKE_DATA_TO_ADA) myLoop();
 }
 
 exports.setup = setupMoistureService; 

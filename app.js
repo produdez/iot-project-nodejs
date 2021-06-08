@@ -26,7 +26,10 @@ dotenv.config();
 //!setup ada services
 const adaService = require('./api/adaService')
 //! SET this to true if want to demo fake data instead of waiting real server
-global.UPLOAD_FAKE_DATA_TO_ADA = false;
+LOCAL = "LOCAL"
+BK = "BK"
+global.CHOSSEN_SERVER = LOCAL
+global.UPLOAD_FAKE_DATA_TO_ADA = true;
 adaService.setup();
 
 

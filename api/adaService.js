@@ -22,7 +22,7 @@ LOCAL = "LOCAL"
 BK = "BK"
 
 //!................ CHOSE SERVER HERE!
-CHOSSEN_SERVER = LOCAL
+CHOSSEN_SERVER = global.CHOSSEN_SERVER
 
 function get_feed_link(username, feed_name){
     return username + '/' + 'feeds/' + feed_name
@@ -152,7 +152,7 @@ function setupAdaService(){
     moistureService.setup();
     lightService.setup();
     humiTempService.setup();
-    // relayService.setup();
+    relayService.setup();
 }
 
 firebase = require('firebase-admin')

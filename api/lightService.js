@@ -30,7 +30,7 @@ function setupLightService(){
         json_data = {
             id:'13',
             name:"LIGHT",
-            data:random_light,
+            data:random_light.toString(),
             unit:""
         }
         console.log('-----------------------------------------------------')
