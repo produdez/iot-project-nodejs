@@ -20,24 +20,10 @@ var usersRouter = require('./routes/users');
 var testAPI = require('./routes/testAPI')
 var testFirebase = require('./routes/testFirebase');
 var app = express();
-
-//! setup ada server connection
-//get key from online link
-getJSON = require('./api/getJSON')
-// ada_info = JSON.parse(getJSON('http://dadn.esp32thanhdanh.link/'))
-ada_info = JSON.parse(getJSON('http://dadn.herokuapp.com/'))
-let [key1, key2] = ada_info.key.split(':')
-
-//write the info on env variable so that other services can use
 const dotenv = require('dotenv');
 dotenv.config();
 
-process.env.BK_ADA_KEY1 = key1
-process.env.BK_ADA_KEY2 = key2
-console.log('Acc1: ',process.env.BK_ADA_ID1,'---',process.env.BK_ADA_KEY1)
-console.log('Acc2: ',process.env.BK_ADA_ID2,'---',process.env.BK_ADA_KEY2)
-
-//setup ada services
+//!setup ada services
 const adaService = require('./api/adaService')
 //! SET this to true if want to demo fake data instead of waiting real server
 global.UPLOAD_FAKE_DATA_TO_ADA = false;

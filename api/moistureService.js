@@ -10,7 +10,7 @@ const ref = firebase.database().ref(DB_NAME)
 function setupMoistureService(){
     var mqttClient = global.mqttClient1;
     mqttClient.on('message', (topic,message)=>{
-        if (topic === 'CSE_BBC/feeds/bk-iot-soil'){
+        if (topic === global.adaInfo.feed_soil){
             console.log('******************************************')
             console.log('Received moisture data from ada:')
             console.log(message.toString())
@@ -35,7 +35,7 @@ function setupMoistureService(){
         }
         console.log('-----------------------------------------------------')
         console.log('Uploading moisture: ',json_data)
-        mqttClient.publish('CSE_BBC/feeds/bk-iot-soil', JSON.stringify(json_data));
+        mqttClient.publish(global.adaInfo.feed_soil, JSON.stringify(json_data));
     }
     var i = 1;                  //  set your counter to 1
     var bound = 100;
@@ -49,7 +49,8 @@ function setupMoistureService(){
             }                       //  ..  setTimeout()
         }, delay)
     }
-    if(global.UPLOAD_FAKE_DATA_TO_ADA) myLoop();
+    // if(global.UPLOAD_FAKE_DATA_TO_ADA) myLoop();
+    myLoop();
 }
 
 exports.setup = setupMoistureService; 

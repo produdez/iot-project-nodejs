@@ -10,7 +10,7 @@ const ref = firebase.database().ref(DB_NAME)
 function setupLightService(){
     var mqttClient = global.mqttClient2;
     mqttClient.on('message', (topic,message)=>{
-        if(topic === 'CSE_BBC1/feeds/bk-iot-light'){
+        if(topic === global.adaInfo.feed_light){
             console.log('******************************************')
             console.log('Received light data from ada:')
             console.log(message.toString())
@@ -35,7 +35,7 @@ function setupLightService(){
         }
         console.log('-----------------------------------------------------')
         console.log('Uploading light: ',json_data)
-        mqttClient.publish('CSE_BBC1/feeds/bk-iot-light', JSON.stringify(json_data));
+        mqttClient.publish(global.adaInfo.feed_light, JSON.stringify(json_data));
     }
     var i = 1;                  //  set your counter to 1
     var bound = 100;
