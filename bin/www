@@ -83,6 +83,7 @@ function onError(error) {
  */
 
 function onListening() {
+  console.log('Server started on:' + 'http://localhost:' + port + '/')
   var addr = server.address();
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr

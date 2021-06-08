@@ -24,7 +24,8 @@ var app = express();
 //! setup ada server connection
 //get key from online link
 getJSON = require('./api/getJSON')
-ada_info = JSON.parse(getJSON('http://dadn.esp32thanhdanh.link/'))
+// ada_info = JSON.parse(getJSON('http://dadn.esp32thanhdanh.link/'))
+ada_info = JSON.parse(getJSON('http://dadn.herokuapp.com/'))
 let [key1, key2] = ada_info.key.split(':')
 
 //write the info on env variable so that other services can use

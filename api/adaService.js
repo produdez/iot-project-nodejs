@@ -9,6 +9,10 @@ function setupAdaService(){
     console.log('-----------------------------------------------------')
     console.log('Ada server setup!')
 
+    //! improve logging
+    var client1Error = true
+    var client2Error = true
+
     //! connect first server
     const options1 = {
         username: process.env.BK_ADA_ID1,
@@ -28,10 +32,15 @@ function setupAdaService(){
             if (err) console.log('Temp-Humid feed subscription error: ',err);
             if (granted) console.log('Subed to Temp-Humid feed')
         })
+
+        client1Error = false
         console.log('connect to adafruit CSE_BBC successfully')
     })
     mqttClient1.on('error', (error)=>{
-        console.log('Error connecting to adaFruit CSE_BBC! ', error)
+        if (client1Error){
+            console.log('Error connecting to adaFruit CSE_BBC! ', error)
+        }
+        client1Error = false
     })
 
     //! connect server 2
@@ -49,10 +58,14 @@ function setupAdaService(){
             if (err) console.log('Light feed subscription error: ',err);
             if (granted) console.log('Subed to light feed')
         })
+        client2Error = false
         console.log('connect to adafruit CSE_BBC1 successfully')
     })
     mqttClient2.on('error', (error)=>{
-        console.log('Error connecting to adaFruit CSE_BBC1! ', error)
+        if (client2Error){
+            console.log('Error connecting to adaFruit CSE_BBC1! ', error)
+        }
+        client2Error = false
     })
 
     //! set global client to use in other services
@@ -83,7 +96,8 @@ function update_ada_auth_info_to_firebase(i){
     setTimeout(() => {
         console.log('Inf loop: ',i)
         //get from link
-        ada_info = JSON.parse(getJSON('http://dadn.esp32thanhdanh.link/'))
+        //ada_info = JSON.parse(getJSON('http://dadn.esp32thanhdanh.link/'))
+        ada_info = JSON.parse(getJSON('http://dadn.herokuapp.com/'))
         let [key1, key2] = ada_info.key.split(':')
         console.log('Ada Keys: ', key1,key2)
         //update on firebase
