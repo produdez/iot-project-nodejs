@@ -61,7 +61,7 @@ function setupRelayService(){
             }                       //  ..  setTimeout()
         }, delay)
     }
-    if(global.UPLOAD_FAKE_DATA_TO_ADA) myLoop();
+    if(global.UPLOAD_FAKE_RELAY) myLoop();
 }
 
 var last_on_relay_json = null;
