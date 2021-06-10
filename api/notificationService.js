@@ -52,12 +52,12 @@ function autoWater(sensor_data,plant_settings){
         unit:""
     }
     console.log('-----------------------------------------------------')
-    console.log('Water on from autoWatering, current moisture: ',sensor_data.data, ' threshold: ', plant_settings.min_moist)
-    water_interval = plant_settings.water_ammount / (100 * 5) //NOTE: 100ml -> 5 secs
+    console.log('Water on from autoWatering, current moisture: ',sensor_data.data, ' threshold: ', plant_settings.min_moist, 'water_ammoint: ', plant_settings.water_amount)
+    water_interval = plant_settings.water_amount / 100 * 5 //NOTE: 100ml -> 5 secs
     global.mqttClient2.publish(global.adaInfo.feed_relay, JSON.stringify(json_data));
     setTimeout(() => {
         json_data.data = '0';
-        console.log('Water off from autoWatering!')
+        console.log('Water off from autoWatering!, expected interval: ', water_interval)
         global.mqttClient2.publish(global.adaInfo.feed_relay, JSON.stringify(json_data));
     }, water_interval * 1000);
 

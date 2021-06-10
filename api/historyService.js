@@ -13,8 +13,11 @@ function pushEnvCondToFirebase(ref, sensor_data){
     console.log('---------------------------------------')
 }
 
-String.prototype.toHHMMSS = function () {
-    var sec_num = parseInt(this, 10); // don't forget the second param
+String.prototype.toHHMMSSMS = function () {
+    var mili_sec_num = parseInt(this, 10); // don't forget the second param
+    var mili = mili_sec_num % 1000
+
+    var sec_num = Math.floor(mili_sec_num / 1000)
     var hours   = Math.floor(sec_num / 3600);
     var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
     var seconds = sec_num - (hours * 3600) - (minutes * 60);
@@ -22,17 +25,17 @@ String.prototype.toHHMMSS = function () {
     if (hours   < 10) {hours   = "0"+hours;}
     if (minutes < 10) {minutes = "0"+minutes;}
     if (seconds < 10) {seconds = "0"+seconds;}
-    return hours+':'+minutes+':'+seconds;
+    return hours+':'+minutes+':'+seconds+':'+mili;
 }
 
 function pushWateringInterval(ref,old_relay_json, new_relay_json){
     old_date = new Date(Date.parse(old_relay_json.date)).getTime()
     new_date = new Date(Date.parse(new_relay_json.date)).getTime()
-    time_interval_sec = (new_date - old_date) / 1000
+    time_interval_mili_sec = (new_date - old_date)
 
     interval_json = {
         date : new Date().toISOString(),
-        time_interval : time_interval_sec.toString().toHHMMSS(),
+        time_interval : time_interval_mili_sec.toString().toHHMMSSMS(),
         plant_id : old_relay_json.plant_id,
         plant_name : old_relay_json.plant_name,
     }
