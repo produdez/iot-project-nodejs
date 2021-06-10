@@ -19,6 +19,10 @@ async function sendNotification(sensor_data){
     await check_service.get_setting_data();
     var [check_result, check_sign] = check_service.check_env_threshold(sensor_data);
     if (check_result){
+        if (check_service.settings_data.water_mode === true){
+            autoWater(sensor_data, check_service.settings_data);
+            return
+        }
         sensor_data.plant_name = sensorService.getPlantName(sensor_data.plant_id);
         sensor_data.threshold = check_service.get_threshold(sensor_data, check_sign);
         sensor_data.date = new Date().toISOString();
@@ -40,5 +44,24 @@ function push_to_firebase(firebase_json){
     newRef.set(firebase_json);
 }
 
+function autoWater(sensor_data,plant_settings){
+    json_data = {
+        id:'11',
+        name:"RELAY",
+        data:'1',
+        unit:""
+    }
+    console.log('-----------------------------------------------------')
+    console.log('Water on from autoWatering, current moisture: ',sensor_data.data, ' threshold: ', plant_settings.min_moist)
+    water_interval = plant_settings.water_ammount / (100 * 5) //NOTE: 100ml -> 5 secs
+    global.mqttClient2.publish(global.adaInfo.feed_relay, JSON.stringify(json_data));
+    setTimeout(() => {
+        json_data.data = '0';
+        console.log('Water off from autoWatering!')
+        global.mqttClient2.publish(global.adaInfo.feed_relay, JSON.stringify(json_data));
+    }, water_interval * 1000);
+
+
+}
 exports.sendNotification = sendNotification;
 
