@@ -29,8 +29,9 @@ const adaService = require('./api/adaService')
 LOCAL = "LOCAL"
 BK = "BK"
 global.CHOSSEN_SERVER = LOCAL
-global.UPLOAD_FAKE_DATA_TO_ADA = false;
+global.UPLOAD_FAKE_DATA_TO_ADA = true;
 global.UPLOAD_FAKE_RELAY = false
+global.LOG_FB_ENVCOND = false;
 adaService.setup();
 
 

@@ -3,14 +3,18 @@ const sensorService = require('./sensorService');
 dotenv.config();
 
 function pushEnvCondToFirebase(ref, sensor_data){
-    console.log('---------------------------------------')
-    console.log('Pushing sensor data from ada to firebase')
+    if (global.LOG_FB_ENVCOND ){
+        console.log('---------------------------------------')
+        console.log('Pushing sensor data from ada to firebase')
+    }
     sensor_data.date = new Date().toISOString();
     sensor_data.plant_name = sensorService.getPlantName(sensor_data.plant_id);
     new_ref = ref.push();
     new_ref.set(sensor_data)
-    console.log(JSON.stringify(sensor_data))
-    console.log('---------------------------------------')
+    if (global.LOG_FB_ENVCOND){
+        console.log(JSON.stringify(sensor_data))
+        console.log('---------------------------------------')
+    }
 }
 
 String.prototype.toHHMMSSMS = function () {
@@ -42,7 +46,7 @@ function pushWateringInterval(ref,old_relay_json, new_relay_json){
     
     new_ref = ref.push();
     new_ref.set(interval_json)
-    console.log(JSON.stringify(interval_json))
+    // console.log(JSON.stringify(interval_json))
     console.log('---------------------------------------')
 }
 

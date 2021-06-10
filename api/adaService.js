@@ -160,8 +160,10 @@ DB_NAME = 'AdaAuth'
 const ref = firebase.database().ref(DB_NAME)
 
 ref.on('value', (snapshot) => {
+    console.log('==============================')
     console.log('Current auth info in firebase!')
-    console.log(JSON.stringify(snapshot.val()));
+    console.log(snapshot.val());
+    console.log('==============================')
 });
 
 var time_seconds = 60; // n-seconds
@@ -171,7 +173,7 @@ async function loop_update(){
 }
 function update_ada_auth_info_to_firebase(i){
     setTimeout(() => {
-        console.log('Inf ada info update loop: ',i)
+        // console.log('Inf ada info update loop: ',i)
         initial_information_setup();
         // console.log('Ada Keys: ', key1,key2)
         //update on firebase

@@ -83,9 +83,12 @@ async function setupFirebaseRelayListener(){
             }
         }
     })
+    console.log('......')
     console.log('Last ON Relay:  ', JSON.stringify(last_on_relay_json))
-
+    console.log('......')
+    newItems = false;
     latest_relay_ref.on("child_added", function (snapshot) {
+        if(!newItems) return //To skip the first data pull 
         let new_relay_json = snapshot.val()        
         let new_val = parseInt(new_relay_json.data)
         let old_val = parseInt(last_on_relay_json.data)
@@ -108,6 +111,10 @@ async function setupFirebaseRelayListener(){
             historyService.pushWateringInterval(water_interval_ref,last_on_relay_json, new_relay_json);
         }
     })
+
+    latest_relay_ref.once('value', function(messages) {
+        newItems = true;
+    });
 }
 
 exports.setup = setupRelayService; 
