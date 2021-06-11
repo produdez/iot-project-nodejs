@@ -76,6 +76,7 @@ async function setupFirebaseRelayListener(){
     
     await last_50_relays.once("value", function(snapshot){
         const last_relay_jsons = snapshot.val()
+        if (last_on_relay_json === null) return
         for (const [key, value] of Object.entries(last_relay_jsons).reverse()) {
             if(value.data === '1'){
                 last_on_relay_json = value
@@ -91,13 +92,13 @@ async function setupFirebaseRelayListener(){
         if(!newItems) return //To skip the first data pull 
         let new_relay_json = snapshot.val()        
         let new_val = parseInt(new_relay_json.data)
-        let old_val = parseInt(last_on_relay_json.data)
-
         if (last_on_relay_json === null) { // case database empty
             console.log('Relay database empty, setting last to first receive!')
             last_on_relay_json = new_val;
             return
         }
+        
+        let old_val = parseInt(last_on_relay_json.data)
         if (new_val === 1){ // if it's a turn on, just record
             last_on_relay_json = new_relay_json;
             return
