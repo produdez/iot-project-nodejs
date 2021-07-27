@@ -28,9 +28,9 @@ const adaService = require('./api/adaService')
 //! SET this to true if want to demo fake data instead of waiting real server
 LOCAL = "LOCAL"
 BK = "BK"
-global.CHOSSEN_SERVER = LOCAL
-global.UPLOAD_FAKE_DATA_TO_ADA = true;
-global.UPLOAD_FAKE_RELAY = false
+global.CHOSSEN_SERVER = BK
+global.UPLOAD_FAKE_DATA_TO_ADA = false;
+global.UPLOAD_FAKE_RELAY = false;
 global.LOG_FB_ENVCOND = false;
 adaService.setup();
 

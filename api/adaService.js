@@ -42,8 +42,10 @@ function feed_connect_success(feed_name){
 
 function initial_information_setup(){
     if (CHOSSEN_SERVER === BK){
-        ada_info = JSON.parse(getJSON('http://dadn.herokuapp.com/'))
-        let [key1, key2] = ada_info.key.split(':')
+        // ada_info = JSON.parse(getJSON('http://dadn.herokuapp.com/'))
+        // let [key1, key2] = ada_info.key.split(':')
+        let key1 = process.env.BK_ADA_KEY1
+        let key2 = process.env.BK_ADA_KEY2
         global.adaInfo = {
             user1: bk_un1,
             user2: bk_un2,
@@ -52,7 +54,7 @@ function initial_information_setup(){
             feed_soil: get_feed_link(bk_un1,soil_name),
             feed_temp_humi: get_feed_link(bk_un1,temp_humi_name),
             feed_light: get_feed_link(bk_un2,light_name),
-            feed_relay: get_feed_link(bk_un1,relay_name)
+            feed_relay: get_feed_link(bk_un2,relay_name)
         }
     }else{
         //setup reading local env file
